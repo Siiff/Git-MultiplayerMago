@@ -34,7 +34,6 @@ public class BulletManager : MonoBehaviour
             Debug.LogError("DANO");
             other.GetComponent<PlayerController>().TakeDamage(-10f);
             PhotonNetwork.Instantiate(explosao.name, other.gameObject.transform.position, other.gameObject.transform.rotation);
-            Destroy(explosao.gameObject, 1);
             Destroy(this.gameObject);
         }
     }

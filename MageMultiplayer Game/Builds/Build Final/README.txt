@@ -1,0 +1,1 @@
+Klebão, gostaria de avisar q nessa tarefa, quanto na de realidade virtual, o integrante do nosso grupo chamado Geovany Lucas Dantas Bertanha não participou em nada nessa atividade, ficando sumido das reuniões e mensagens no grupo.
