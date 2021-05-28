@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviourPun
 
     public void TakeDamage( float value)
     {
+        Debug.LogError("TOMEI DANO");
         Debug.LogWarning("TakeDamage");
         Debug.LogWarning("value= " + value);
         photonView.RPC("TakeDamageNetwork", RpcTarget.AllBuffered, value);

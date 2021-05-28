@@ -30,6 +30,7 @@ public class BulletManager : MonoBehaviour
     {
         if(other.CompareTag("Player") && other.GetComponent<PlayerController>())
         {
+            Debug.LogError("DANO");
             other.GetComponent<PlayerController>().TakeDamage(-10f);
         }
     }
