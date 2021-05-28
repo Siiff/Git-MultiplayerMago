@@ -146,7 +146,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
         background.gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(false);
 
-        Vector3 pos = new Vector3(Random.Range(-15, 15), playerPUN.transform.position.y, Random.Range(-15, 15));
+        Vector3 pos = new Vector3(Random.Range(-15, 15), playerPUN.transform.position.y + 2, Random.Range(-15, 15));
 
         PhotonNetwork.Instantiate(playerPUN.name, pos, playerPUN.transform.rotation, 0);
         //Debug.LogError("PLAYERPUN.NAME: " + playerPUN.name);

@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviourPun
 {
+    [Header("PLAYER MOV")]
+    float playerSpeed;
+    Rigidbody rb;
     float frente;
     float girar;
     public PhotonView photonview;
@@ -31,9 +34,7 @@ public class PlayerController : MonoBehaviourPun
     void Start()
     {
         photonview = GetComponent<PhotonView>();
-
-        
-
+        rb = GetComponent<Rigidbody>();
         _networkController = GameObject.Find("NetworkController").GetComponent<NetworkController>();
 
         if(!photonView.IsMine)
@@ -47,15 +48,39 @@ public class PlayerController : MonoBehaviourPun
         playerName.text = PhotonNetwork.NickName;
         HealthManager(playerHealthMax);
     }
-    void Update()
-    {        
+    private void FixedUpdate()
+    {
         if (photonview.IsMine && Time.timeScale != 0)
         {
             Moving();
             Shooting();
             DebugHotkeys();
         }
-        
+    }
+    void Update()
+    {        
+    }
+    void Moving()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.Translate(0, 0, (frente * Time.deltaTime));
+        }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.Translate(0, 0, (-frente * Time.deltaTime));
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Rotate(0, (-girar * Time.deltaTime), 0);
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.Rotate(0, (girar * Time.deltaTime), 0);
+        }
     }
     #endregion
 
@@ -86,28 +111,7 @@ public class PlayerController : MonoBehaviourPun
         HealthManager(value);
     }
 
-    void Moving()
-    {
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.Translate(0, 0, (frente * Time.deltaTime));
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(0, 0, (-frente * Time.deltaTime));
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Rotate(0, (-girar * Time.deltaTime), 0);
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.Rotate(0, (girar * Time.deltaTime), 0);
-        }
-    }
+    
     void Shooting()
     {
         if (Input.GetMouseButtonDown(0) && ataque)
