@@ -8,9 +8,18 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviourPun
 {
-    [Header("PLAYER MOV")]
-    float playerSpeed;
-    Rigidbody rb;
+    [Header("Movement")]
+    public float playerSpeed = 10;
+    public float jumpForce = 10;
+    public float yawSpeed = 1;
+    public float disttoground = 0.5f;
+
+    [HideInInspector]
+    public Rigidbody rb;
+
+    Vector3 x, z;
+
+
     float frente;
     float girar;
     public PhotonView photonview;
@@ -33,8 +42,11 @@ public class PlayerController : MonoBehaviourPun
     #region Metodos da Unity
     void Start()
     {
+
         photonview = GetComponent<PhotonView>();
+
         rb = GetComponent<Rigidbody>();
+
         _networkController = GameObject.Find("NetworkController").GetComponent<NetworkController>();
 
         if(!photonView.IsMine)
@@ -47,11 +59,16 @@ public class PlayerController : MonoBehaviourPun
         girar = 90;
         playerName.text = PhotonNetwork.NickName;
         HealthManager(playerHealthMax);
+
     }
     private void FixedUpdate()
     {
         if (photonview.IsMine && Time.timeScale != 0)
         {
+            //-----Inputs-----//
+            x = transform.right * Input.GetAxisRaw("Horizontal");
+            z = transform.forward * Input.GetAxisRaw("Vertical");
+
             Moving();
             Shooting();
             DebugHotkeys();
@@ -62,7 +79,16 @@ public class PlayerController : MonoBehaviourPun
     }
     void Moving()
     {
-        if (Input.GetKey(KeyCode.W))
+        transform.Rotate(new Vector3(0,Input.GetAxis("Mouse X"), 0) * Time.deltaTime * yawSpeed);
+        Vector3 movement = (x + z).normalized * playerSpeed;
+        rb.AddForce(movement);
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded())
+        {
+            Jump();
+        }
+
+        /*if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(0, 0, (frente * Time.deltaTime));
         }
@@ -80,7 +106,16 @@ public class PlayerController : MonoBehaviourPun
         if (Input.GetKey(KeyCode.D))
         {
             transform.Rotate(0, (girar * Time.deltaTime), 0);
-        }
+        }*/
+    }
+    void Jump()
+    {
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    bool isGrounded()
+    {
+        return Physics.Raycast(transform.position, -Vector3.up, disttoground);
     }
     #endregion
 
