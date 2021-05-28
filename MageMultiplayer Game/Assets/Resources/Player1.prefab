@@ -1484,7 +1484,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   photonview: {fileID: 23558313724765223}
-  _networkController: {fileID: 0}
   myCamera: {fileID: 1504415961043071195}
   playerHealthFill: {fileID: 7048683927072412940}
   playerName: {fileID: 6715178974288688108}

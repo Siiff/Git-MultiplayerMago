@@ -14,6 +14,9 @@ public class SelectPlayer : MonoBehaviour
     public GameObject myplayerCanvas;
     PhotonView photonView;
 
+    Player player;
+    ExitGames.Client.Photon.Hashtable PropriedadesPlayer = new ExitGames.Client.Photon.Hashtable();
+
     private void Start()
     {
         photonView = this.GetComponent<PhotonView>();
@@ -22,8 +25,9 @@ public class SelectPlayer : MonoBehaviour
         {
             myplayerCanvas.gameObject.SetActive(false);
         }
-        playerSelected = PlayerPrefs.GetInt("MAGO");
-        SwitchPlayer();
+
+        SyncColorChoice();
+        
     }
 
     public void SwitchPlayer()
@@ -88,6 +92,24 @@ public class SelectPlayer : MonoBehaviour
         {
             playerSelected = playerList.transform.childCount - 1;
         }
+        SwitchPlayer();
+    }
+
+    void SyncColorChoice()
+    {
+        if (photonView.IsMine)
+        {
+            PropriedadesPlayer.Add("_mago", PlayerPrefs.GetInt("MAGO"));
+            PhotonNetwork.LocalPlayer.SetCustomProperties(PropriedadesPlayer);
+            playerSelected = PlayerPrefs.GetInt("MAGO");
+        }
+
+        else
+        {   
+            player = photonView.Owner;
+            playerSelected = (int)player.CustomProperties["_mago"];
+        }
+
         SwitchPlayer();
     }
 }
