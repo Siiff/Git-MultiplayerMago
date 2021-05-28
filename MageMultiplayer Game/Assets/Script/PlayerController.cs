@@ -161,11 +161,17 @@ public class PlayerController : MonoBehaviourPun
             string _perdedor = PhotonNetwork.NickName;
             string _vencedor = _perdedor;
                      
-            if (!photonview.IsMine && PhotonNetwork.PlayerListOthers.Length != 0)
+            if (PhotonNetwork.PlayerListOthers.Length != 0)
                 _vencedor = PhotonNetwork.PlayerListOthers[0].NickName;
 
-            _networkController.OnFinish(_perdedor, _vencedor);
+            if(!photonview.IsMine)
+            {
+                string temp = _perdedor;
+                _perdedor = _vencedor;
+                _vencedor = temp;
+            }
             
+            _networkController.OnFinish(_perdedor, _vencedor);
         }
     }
 
