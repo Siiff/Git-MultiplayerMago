@@ -8,6 +8,7 @@ public class PlayerSelected : MonoBehaviour
     void LoadPlayerScene(int value)
     {
         PlayerPrefs.SetInt("MAGO", value);
+        PlayerPrefs.Save();
         SceneManager.LoadScene("SampleScene");
     }
     public void Btn1()

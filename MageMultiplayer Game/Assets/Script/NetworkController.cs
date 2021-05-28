@@ -40,8 +40,8 @@ public class NetworkController : MonoBehaviourPunCallbacks
     void Start()
     {
         Debug.Log("Arma " + PlayerPrefs.GetInt("Arma"));
-        PlayerPrefs.DeleteAll();
-        PlayerPrefs.Save();
+        //PlayerPrefs.DeleteAll();
+        //PlayerPrefs.Save();
         Debug.Log("Arma " + PlayerPrefs.GetInt("Arma"));
         loginPn.gameObject.SetActive(true);
         lobbyPn.gameObject.SetActive(false);
