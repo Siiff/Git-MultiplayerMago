@@ -120,22 +120,24 @@ public class PlayerController : MonoBehaviourPun
             if (tempoAtaque <= 0)
             {
                 ataque = true;
-                tempoAtaque = 1.5f;
+                tempoAtaque = 1f;
             }
         }
-        tempoAtaque -= Time.deltaTime;
         if (Input.GetMouseButtonDown(1) && ataque)
         {
             PhotonNetwork.Instantiate(bulletPhotonView.name, spawnBullet.transform.position, spawnBullet.transform.rotation);
+            PhotonNetwork.Instantiate(bulletPhotonView.name, spawnBullet.transform.position, spawnBullet.transform.rotation);
+            ataque = false;
         }
         else
         {
             if (tempoAtaque <= 0)
             {
                 ataque = true;
-                tempoAtaque = 1.5f;
+                tempoAtaque = 3.5f;
             }
         }
+        tempoAtaque -= Time.deltaTime;
     }
 
     [PunRPC]

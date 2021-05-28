@@ -5,6 +5,7 @@ using Photon.Pun;
 public class BulletManager : MonoBehaviour
 {
     public float bulletSpeed = 1000f;
+    public GameObject explosao;
     Rigidbody bulletRB;
 
     public float bulletTimeLife = 3f;
@@ -32,6 +33,9 @@ public class BulletManager : MonoBehaviour
         {
             Debug.LogError("DANO");
             other.GetComponent<PlayerController>().TakeDamage(-10f);
+            PhotonNetwork.Instantiate(explosao.name, other.gameObject.transform.position, other.gameObject.transform.rotation);
+            Destroy(explosao.gameObject, 1);
+            Destroy(this.gameObject);
         }
     }
 }
