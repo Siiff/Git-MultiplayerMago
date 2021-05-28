@@ -16,6 +16,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
     [Header("LOBBY")]
     public GameObject lobbyPn;
     public InputField roomNameInput;
+    public GameObject background;
     string tempRoomName;
 
     [Space]
@@ -136,6 +137,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
 
         loginPn.gameObject.SetActive(false);
         lobbyPn.gameObject.SetActive(false);
+        background.gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(false);
 
         Vector3 pos = new Vector3(Random.Range(-15, 15), playerPUN.transform.position.y, Random.Range(-15, 15));

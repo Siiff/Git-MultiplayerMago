@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviourPun
     public GameObject bullet;
     public GameObject bulletPhotonView;
     public GameObject spawnBullet;
+    public float tempoAtaque;
+    private bool ataque;
 
     #region Metodos da Unity
     void Start()
@@ -97,14 +99,24 @@ public class PlayerController : MonoBehaviourPun
 
     void Shooting()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && ataque)
         {
-            photonView.RPC("Shoot", RpcTarget.All);
+                photonView.RPC("Shoot", RpcTarget.All);
+                ataque = false;
         }
-        if (Input.GetMouseButtonDown(1))
+        else
+        {
+            if (tempoAtaque <= 0)
+            {
+                ataque = true;
+                tempoAtaque = 1.5f;
+            }
+        }
+        tempoAtaque -= Time.deltaTime;
+        /*if (Input.GetMouseButtonDown(1))
         {
             PhotonNetwork.Instantiate(bulletPhotonView.name, spawnBullet.transform.position, spawnBullet.transform.rotation);
-        }      
+        }      */
     }
 
     [PunRPC]
