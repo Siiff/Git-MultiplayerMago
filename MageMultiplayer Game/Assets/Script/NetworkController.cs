@@ -25,6 +25,12 @@ public class NetworkController : MonoBehaviourPunCallbacks
     public GameObject mainCamera;
 
     [Space]
+    [Header("Vitória")]
+    public GameObject painelVitoria;
+    public Text textVencedor;
+    public Text textPerdedor;
+
+    [Space]
     [Header("Menssagem na Tela")]
     public Text msgText;
     public string msgEntrada = " Entrou na Sala!";
