@@ -161,4 +161,15 @@ public class NetworkController : MonoBehaviourPunCallbacks
     {
         ExibeMsg(p1.NickName + msgSaida);
     }
+
+    public void OnFinish(string perdedor, string vencedor)
+    {
+        //pausa o jogo
+        Time.timeScale = 0;
+        //atualiza nomes e chama tela de vitória
+        textPerdedor.text = perdedor;
+        textVencedor.text = vencedor;
+        painelVitoria.SetActive(true);
+    }
+
 }

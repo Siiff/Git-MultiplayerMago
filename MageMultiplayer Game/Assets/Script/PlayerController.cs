@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviourPun
     float frente;
     float girar;
     public PhotonView photonview;
+    public NetworkController _networkController;
     public Camera myCamera;
 
     [Header("VIDA")]
@@ -31,6 +32,8 @@ public class PlayerController : MonoBehaviourPun
     {
         photonview = GetComponent<PhotonView>();
 
+        _networkController = GameObject.Find("NetworkController").GetComponent<NetworkController>();;
+
         if(!photonView.IsMine)
         {
             myCamera.gameObject.SetActive(false);
@@ -44,29 +47,11 @@ public class PlayerController : MonoBehaviourPun
     }
     void Update()
     {        
-        if (photonview.IsMine)
+        if (photonview.IsMine && Time.timeScale != 0)
         {
-            if (Input.GetKey(KeyCode.W))
-            {
-                transform.Translate(0, 0, (frente * Time.deltaTime));
-            }
-
-            if (Input.GetKey(KeyCode.S))
-            {
-                transform.Translate(0, 0, (-frente * Time.deltaTime));
-            }
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                transform.Rotate(0, (-girar * Time.deltaTime), 0);
-            }
-
-            if (Input.GetKey(KeyCode.D))
-            {
-                transform.Rotate(0, (girar * Time.deltaTime), 0);
-            }
-
+            Moving();
             Shooting();
+            DebugHotkeys();
         }
         
     }
@@ -77,10 +62,11 @@ public class PlayerController : MonoBehaviourPun
     void HealthManager(float value)
     {
         Debug.LogWarning("HealthManager");
-        Debug.LogWarning("value= "+ value);
+        Debug.LogWarning("value= " + value);
             playerHealthCurrent += value;
             playerHealthFill.fillAmount = playerHealthCurrent / 100;
-        
+
+        IsDeadCheck();
     }
 
     public void TakeDamage( float value)
@@ -98,6 +84,28 @@ public class PlayerController : MonoBehaviourPun
         HealthManager(value);
     }
 
+    void Moving()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.Translate(0, 0, (frente * Time.deltaTime));
+        }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.Translate(0, 0, (-frente * Time.deltaTime));
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Rotate(0, (-girar * Time.deltaTime), 0);
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.Rotate(0, (girar * Time.deltaTime), 0);
+        }
+    }
     void Shooting()
     {
         if (Input.GetMouseButtonDown(0) && ataque)
@@ -132,6 +140,33 @@ public class PlayerController : MonoBehaviourPun
     void Shoot()
     {
         Instantiate(bullet, spawnBullet.transform.position, spawnBullet.transform.rotation);
+    }
+
+    [PunRPC]
+    void DebugHotkeys()
+    {
+        //SELF DAMAGE
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.K))
+        {
+            Debug.LogWarning(">> SELF DAMAGE <<");
+            TakeDamage(-10f);
+        }
+    }
+
+    //[PunRPC]
+    void IsDeadCheck()
+    {
+        if (playerHealthCurrent <= 0f)
+        {
+            string _perdedor = PhotonNetwork.NickName;
+            string _vencedor = _perdedor;
+                     
+            if (!photonview.IsMine && PhotonNetwork.PlayerListOthers.Length != 0)
+                _vencedor = PhotonNetwork.PlayerListOthers[0].NickName;
+
+            _networkController.OnFinish(_perdedor, _vencedor);
+            
+        }
     }
 
     #endregion

@@ -7,6 +7,7 @@ using Photon.Realtime;
 
 public class ScriptDosMenus : MonoBehaviour
 {
+    public PhotonView photonview;
     public void MENUSTART()
     {
         SceneManager.LoadScene("MENUSTART");
@@ -18,10 +19,12 @@ public class ScriptDosMenus : MonoBehaviour
     public void RESTART()
     {
         PhotonNetwork.Disconnect();
+        Time.timeScale = 1;
         SceneManager.LoadScene("MENUSTART");
     }    
     public void EXIT()
     {
         Application.Quit();
     }
+
 }
