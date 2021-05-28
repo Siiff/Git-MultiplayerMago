@@ -27,7 +27,7 @@ public class SelectPlayer : MonoBehaviour
         }
 
         SyncColorChoice();
-
+        
     }
 
     public void SwitchPlayer()
@@ -105,7 +105,7 @@ public class SelectPlayer : MonoBehaviour
         }
 
         else
-        {
+        {   
             player = photonView.Owner;
             playerSelected = (int)player.CustomProperties["_mago"];
         }

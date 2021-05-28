@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviourPun
     float frente;
     float girar;
     public PhotonView photonview;
-    public NetworkController _networkController;
+    NetworkController _networkController;
     public Camera myCamera;
 
     [Header("VIDA")]
@@ -32,7 +32,9 @@ public class PlayerController : MonoBehaviourPun
     {
         photonview = GetComponent<PhotonView>();
 
-        _networkController = GameObject.Find("NetworkController").GetComponent<NetworkController>();;
+        
+
+        _networkController = GameObject.Find("NetworkController").GetComponent<NetworkController>();
 
         if(!photonView.IsMine)
         {
