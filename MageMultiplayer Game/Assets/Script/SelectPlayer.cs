@@ -29,19 +29,10 @@ public class SelectPlayer : MonoBehaviour
     public void SwitchPlayer()
     {
         Debug.LogWarning("Entrou no SwitchPlayer");
-        Debug.Log("PlayerSelected é: "+playerSelected);
-        //RodandoOSelect();
+        Debug.Log("PlayerSelected é: " + playerSelected);
         photonView.RPC("SwitchPlayerRPC", RpcTarget.AllBuffered);
     }
 
-    /*public void RodandoOSelect()
-    {
-        for (int i = 0; i < playerSelected; i++)
-        {
-            Debug.LogError("RODANDO");
-            ButtonRightRPC();
-        }
-    }*/
     public void ButtonRight()
     {
         photonView.RPC("ButtonRightRPC", RpcTarget.AllBuffered);
